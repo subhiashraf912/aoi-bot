@@ -38,7 +38,9 @@ export default class MessageEvent extends BaseEvent {
       let shouldReturn = false;
       bannedWords.forEach(async (word) => {
         {
-          if (message.content.toLowerCase().includes(word)) shouldReturn = true;
+          message.content.split(" ").forEach((w) => {
+            if (w.toLowerCase() === word) shouldReturn = true;
+          });
         }
       });
       if (shouldReturn) {
