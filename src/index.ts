@@ -7,8 +7,19 @@ import "./utils/@types/environment";
 
 const { BOT_TOKEN } = process.env;
 const client = new Client({
-  intents: ["DirectMessages", "MessageContent", "Guilds", "GuildMembers"],
-  partials: [Partials.Channel, Partials.User, Partials.GuildMember],
+  intents: [
+    "DirectMessages",
+    "MessageContent",
+    "Guilds",
+    "GuildMembers",
+    "GuildMessages",
+  ],
+  partials: [
+    Partials.Channel,
+    Partials.User,
+    Partials.GuildMember,
+    Partials.Message,
+  ],
   rest: { version: "10" },
 });
 client.rest.setToken(BOT_TOKEN);

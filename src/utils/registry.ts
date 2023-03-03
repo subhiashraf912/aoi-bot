@@ -59,7 +59,7 @@ export async function registerSlashSubcommands(
             .setName(command.group)
             .setDescription(`${command.group} group`);
 
-          client.subcommandsGroups.set(command.group, {
+          client.subcommandsGroups.set(`${baseCommandName}_${group?.name!}`, {
             baseCommand: baseCommandName,
             builder: group,
             registeredCommands: [],
@@ -76,10 +76,16 @@ export async function registerSlashSubcommands(
         ) {
           group?.builder.addSubcommand(command.commandBuilder);
           group?.registeredCommands.push(command.name);
-          client.subcommandsGroups.set(group?.name!, group!);
+          client.subcommandsGroups.set(
+            `${group.baseCommand}_${group?.name!}`,
+            group!
+          );
         }
       } else {
-        client.subcommands.set(command.name, command);
+        client.subcommands.set(
+          `${command.baseCommand}_${command.name}`,
+          command
+        );
       }
     }
   }
@@ -112,6 +118,7 @@ function assignSlashSubcommandsGroupsAndSubcommandsToClientCollection(
     console.log(groupName);
     const permissions = subcommandsGroupsRawData[groupName]?.permissions;
     const description = subcommandsGroupsRawData[groupName]?.description;
+    const directCommands = subcommandsGroupsRawData[groupName]?.directCommands;
     console.log(permissions, description);
     if (permissions) {
       console.log(
@@ -128,6 +135,7 @@ function assignSlashSubcommandsGroupsAndSubcommandsToClientCollection(
         new SlashCommandBuilder()
           .setName(group.baseCommand)
           .setDescription(description || `${group.baseCommand} command`)
+          .setDMPermission(directCommands)
       );
     }
 
@@ -143,12 +151,14 @@ function assignSlashSubcommandsGroupsAndSubcommandsToClientCollection(
     );
     const permissions = subcommandsRawData[baseCommandName]?.permissions;
     const description = subcommandsRawData[baseCommandName]?.description;
+    const directCommands = subcommandsRawData[baseCommandName]?.directCommands;
     if (!client.subcommandsBuilders.get(subcommand.baseCommand)) {
       client.subcommandsBuilders.set(
         subcommand.baseCommand,
         new SlashCommandBuilder()
           .setName(subcommand.baseCommand)
           .setDescription(description || `${subcommand.name} command`)
+          .setDMPermission(directCommands)
       );
 
       if (permissions) {

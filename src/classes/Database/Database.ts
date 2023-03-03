@@ -5,7 +5,9 @@ class Database {
   databaseURI;
   models = new Models();
   constructor(mongoURI: string) {
+    mongoose.set("strictQuery", true);
     this.databaseURI = mongoURI;
+    this.init();
   }
 
   async init(): Promise<void> {

@@ -13,6 +13,7 @@ import BaseCommand from "../bases/BaseCommand";
 import ClientConfiguration from "./ClientConfigurationsManager";
 import Database from "../Database/Database";
 import BaseSubCommandExecutor from "../bases/BaseSubCommandExecutor";
+import { Configuration, OpenAIApi } from "openai";
 
 interface SubcommandsGroup {
   name: string;
@@ -28,6 +29,13 @@ export default class DiscordClient<
     super(options);
   }
   prefix = "!";
+  openai = new OpenAIApi(
+    new Configuration({
+      organization: process.env.OPENAI_ORGANIZATION,
+      apiKey: process.env.OPENAI_KEY,
+    })
+  );
+
   database = new Database(process.env.MONGO_DB!);
   slashCommands = new Collection<string, BaseSlashCommand>();
   events = new Collection<keyof ClientEvents, BaseEvent>();

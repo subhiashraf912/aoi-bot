@@ -30,7 +30,29 @@ export default class MessageEvent extends BaseEvent {
       }
     }
     if (message.author.bot || !message.member || !message.guild) return;
-    message.member.permissions.toJSON();
+    if (message.content.includes(client.user?.toString()!)) {
+      const authedUsers = ["805422315538087936"];
+      if (!authedUsers.includes(message.author.id))
+        return message.reply("I respond only to my master, Aoi.");
+      console.log(message.content);
+      const GPTResponse = await client.openai.createChatCompletion({
+        model: "gpt-3.5-turbo",
+        messages: [
+          {
+            role: "user",
+            content: `${message.content.replace(client.user?.toString()!, "")}`,
+          },
+        ],
+        max_tokens: 1000,
+        stop: ["ChatGPT:", "Yelan:"],
+        temperature: 0.5,
+        // stream: true,
+      });
+      message.reply(GPTResponse.data.choices[0].message?.content!);
+      GPTResponse.data.choices.forEach((choice) => console.log(choice));
+      // console.log(GPTResponse.data.choices[0].message?.content);
+      // GPTResponse.data.return;
+    }
     const prefix = await client.configurations.prefixes.get(message.guild.id);
     if (message.content.startsWith(prefix)) {
       const [cmdName, ...cmdArgs] = message.content
