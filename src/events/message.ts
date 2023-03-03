@@ -36,13 +36,10 @@ export default class MessageEvent extends BaseEvent {
       //   return message.reply("I respond only to my master, Aoi.");
       const bannedWords = ["gay", "kill", "ass", "pussy", "balls"];
       let shouldReturn = false;
-      bannedWords.forEach(async (word) => {
-        {
-          message.content.split(" ").forEach((w) => {
-            if (w.toLowerCase() === word) shouldReturn = true;
-          });
-        }
+      message.content.split(" ").forEach((word) => {
+        if (bannedWords.includes(word.toLowerCase())) shouldReturn = true;
       });
+
       if (shouldReturn) {
         const aze = await client.users.fetch("507684120739184640");
         await aze.send(
