@@ -34,7 +34,25 @@ export default class MessageEvent extends BaseEvent {
       // const authedUsers = ["805422315538087936", "507684120739184640"];
       // if (!authedUsers.includes(message.author.id))
       //   return message.reply("I respond only to my master, Aoi.");
-      console.log(message.content);
+      const bannedWords = ["gay", "kill", "ass", "pussy", "balls"];
+      let shouldReturn = false;
+      bannedWords.forEach(async (word) => {
+        {
+          if (message.content.toLowerCase().includes(word)) shouldReturn = true;
+        }
+      });
+      if (shouldReturn) {
+        const aze = await client.users.fetch("507684120739184640");
+        await aze.send(
+          `The user: ${message.author.toString()} has used inappropriate message in the ai chat, message content is:\`\`\`${
+            message.content
+          }\`\`\``
+        );
+        return message.reply(
+          "I am not allowed to provide any information about the data you have provided me, Keep in mind that sending such inappropriate messages will result you in being banned from using the bot."
+        );
+      }
+      if (message.content) console.log(message.content);
       const GPTResponse = await client.openai.createChatCompletion({
         model: "gpt-3.5-turbo",
         messages: [
