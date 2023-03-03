@@ -31,7 +31,7 @@ export default class MessageEvent extends BaseEvent {
     }
     if (message.author.bot || !message.member || !message.guild) return;
     if (message.content.includes(client.user?.toString()!)) {
-      const authedUsers = ["805422315538087936"];
+      const authedUsers = ["805422315538087936", "507684120739184640"];
       if (!authedUsers.includes(message.author.id))
         return message.reply("I respond only to my master, Aoi.");
       console.log(message.content);
