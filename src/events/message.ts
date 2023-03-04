@@ -65,10 +65,17 @@ export default class MessageEvent extends BaseEvent {
         temperature: 0.5,
         // stream: true,
       });
-      message.reply(GPTResponse.data.choices[0].message?.content!);
-      GPTResponse.data.choices.forEach((choice) => console.log(choice));
-      // console.log(GPTResponse.data.choices[0].message?.content);
-      // GPTResponse.data.return;
+      const gptContent = GPTResponse.data.choices[0].message?.content!;
+      if (gptContent.length < 2000) {
+        const contents = [gptContent.slice(0, 2000), gptContent.slice(2000)];
+        for (const content of contents) {
+          await message.channel.send({ content });
+        }
+      } else {
+        message.reply({
+          content: GPTResponse.data.choices[0].message?.content!,
+        });
+      }
     }
     const prefix = await client.configurations.prefixes.get(message.guild.id);
     if (message.content.startsWith(prefix)) {
