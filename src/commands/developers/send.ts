@@ -26,12 +26,12 @@ export default class StatsSlashCommand extends BaseSlashCommand {
     client: DiscordClient<boolean>,
     interaction: CommandInteraction<CacheType>
   ) {
-    if (!client.checkDevelopers(interaction.user.id)) {
-      interaction.reply({
-        content: "Only bot developers have access to this command.",
-      });
-      return;
-    }
+    // if (!client.checkDevelopers(interaction.user.id)) {
+    //   interaction.reply({
+    //     content: "Only bot developers have access to this command.",
+    //   });
+    //   return;
+    // }
     const user = interaction.options.get("user", true).user!;
     const content = interaction.options.get("content", true).value as string;
     try {
