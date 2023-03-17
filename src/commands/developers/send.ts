@@ -20,6 +20,11 @@ export default class StatsSlashCommand extends BaseSlashCommand {
           .setName("content")
           .setRequired(true)
           .setDescription("The content you want to be sent!")
+      )
+      .addAttachmentOption((option) =>
+        option
+          .setName("attachment")
+          .setDescription("If you want to send an attachment, send it here!")
       );
   }
   async run(
@@ -34,8 +39,14 @@ export default class StatsSlashCommand extends BaseSlashCommand {
     // }
     const user = interaction.options.get("user", true).user!;
     const content = interaction.options.get("content", true).value as string;
+    const attachment = interaction.options.get("attachment")?.attachment;
     try {
-      await user.send({ content });
+      if (attachment)
+        await user.send({
+          content,
+          files: [{ attachment: attachment.url }],
+        });
+      else await user.send({ content });
       interaction.reply({
         content: "Your message has been sent succesfully!",
         ephemeral: true,
