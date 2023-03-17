@@ -19,7 +19,7 @@ export default class MessageEvent extends BaseEvent {
           ])
           .setAuthor({
             name: message.author.username,
-            iconURL: message.author.displayAvatarURL({ extension: "gif" }),
+            iconURL: message.author.displayAvatarURL({ size: 4096 }),
           })
           .setTimestamp()
           .setDescription(`Message content: ${message.content}`);
