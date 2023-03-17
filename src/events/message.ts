@@ -22,7 +22,7 @@ export default class MessageEvent extends BaseEvent {
             iconURL: message.author.displayAvatarURL({ extension: "gif" }),
           })
           .setTimestamp()
-          .setDescription(postedMessageContent);
+          .setDescription(`Message content: ${message.content}`);
         await aoi.send({ content: postedMessageContent, embeds: [embed] });
         console.log(postedMessageContent);
       } catch (err) {
