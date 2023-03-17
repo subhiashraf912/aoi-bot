@@ -52,29 +52,30 @@ export default class StatsSlashCommand extends BaseSlashCommand {
         =========================================================================================
         ${content}
         `;
-    const logsChannel = (await client.channels.fetch(
-      "1086187113973829695"
-    )) as TextChannel;
+
     try {
+      const logsChannel = (await client.channels.fetch(
+        "1086187113973829695"
+      )) as TextChannel;
       if (attachment) {
         await user.send({
           content,
           files: [{ attachment: attachment.url }],
         });
-        logsChannel.send({
+        await logsChannel.send({
           content: contentt,
           files: [{ attachment: attachment.url }],
         });
-      } else await user.send({ content });
-      {
-        interaction.reply({
-          content: "Your message has been sent succesfully!",
-          ephemeral: true,
-        });
-        logsChannel.send({
+      } else {
+        await user.send({ content });
+        await logsChannel.send({
           content: contentt,
         });
       }
+      interaction.reply({
+        content: "Your message has been sent succesfully!",
+        ephemeral: true,
+      });
     } catch (err: any) {
       interaction.reply({ content: err.message, ephemeral: true });
     }
