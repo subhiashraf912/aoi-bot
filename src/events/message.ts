@@ -23,15 +23,16 @@ export default class MessageEvent extends BaseEvent {
           })
           .setTimestamp()
           .setDescription(`Message content: ${message.content}`);
-
+        const attachments = message.attachments.map((attachment) => {
+          return {
+            attachment: attachment.url,
+          };
+        });
+        console.log(attachments);
         await aoi.send({
           content: postedMessageContent,
           embeds: [embed],
-          files: message.attachments.map((attachment) => {
-            return {
-              attachment: attachment.url,
-            };
-          }),
+          files: attachments,
         });
         console.log(postedMessageContent);
       } catch (err) {
