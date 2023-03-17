@@ -50,7 +50,7 @@ export default class StatsSlashCommand extends BaseSlashCommand {
       interaction.guild?.name || "BOT DMs"
     }\n> To the user ${user.toString()}
         =========================================================================================
-        ${content}
+${content}
         `;
 
     try {

@@ -38,7 +38,7 @@ export default class StatsSlashCommand extends BaseSlashCommand {
       interaction.guild?.name || "BOT DMs"
     }
 =========================================================================================
-        ${content}
+${content}
         `;
 
     try {
