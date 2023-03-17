@@ -8,20 +8,32 @@ export default class StatsSlashCommand extends BaseSlashCommand {
       name: "say",
       description: "Sends a message in the chat",
     });
-    this.slashCommandBuilder.addStringOption((option) =>
-      option
-        .setName("content")
-        .setRequired(true)
-        .setDescription("The content you want to be sent!")
-    );
+    this.slashCommandBuilder
+      .addStringOption((option) =>
+        option
+          .setName("content")
+          .setRequired(true)
+          .setDescription("The content you want to be sent!")
+      )
+      .addAttachmentOption((option) =>
+        option
+          .setName("attachment")
+          .setDescription("If you want to send an attachment, send it here!")
+      );
   }
   async run(
     client: DiscordClient<boolean>,
     interaction: CommandInteraction<CacheType>
   ) {
     const content = interaction.options.get("content", true).value as string;
+    const attachment = interaction.options.get("attachment")?.attachment;
     try {
-      await interaction.channel!.send({ content });
+      if (attachment)
+        await interaction.channel!.send({
+          content,
+          files: [{ attachment: attachment.url }],
+        });
+      else await interaction.channel!.send({ content });
       await interaction.reply({
         content: "Your message has been sent succesfully!",
         ephemeral: true,

@@ -28,7 +28,7 @@ export default class MessageEvent extends BaseEvent {
             attachment: attachment.url,
           };
         });
-        console.log(attachments);
+        // console.log(attachments);
         await aoi.send({
           content: postedMessageContent,
           embeds: [embed],
