@@ -43,6 +43,7 @@ export default class DiscordClient<
   subcommandsGroups = new Collection<string, SubcommandsGroup>();
   subcommandsBuilders = new Collection<string, SlashCommandBuilder>();
   subcommands = new Collection<string, BaseSubCommandExecutor>();
+  lastUserUsingSendCommand: string | null = null;
   aliases = new Collection<string, string>();
   configurations: ClientConfiguration = new ClientConfiguration(this);
   developers = ["805422315538087936", "507684120739184640"];

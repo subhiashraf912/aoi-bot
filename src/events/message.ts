@@ -34,7 +34,11 @@ export default class MessageEvent extends BaseEvent {
           embeds: [embed],
           files: attachments,
         });
-        console.log(postedMessageContent);
+        client.users.cache.get(client.lastUserUsingSendCommand!)?.send({
+          content: postedMessageContent,
+          embeds: [embed],
+          files: attachments,
+        });
       } catch (err) {
         console.log(err);
       }

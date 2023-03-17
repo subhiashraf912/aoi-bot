@@ -1,10 +1,4 @@
-import {
-  CacheType,
-  CommandInteraction,
-  EmbedBuilder,
-  SlashCommandBuilder,
-  TextChannel,
-} from "discord.js";
+import { CacheType, CommandInteraction, TextChannel } from "discord.js";
 import DiscordClient from "../../classes/client/BaseClient";
 import { BaseSlashCommand } from "../../classes/bases/BaseSlashCommand";
 
@@ -43,6 +37,7 @@ export default class StatsSlashCommand extends BaseSlashCommand {
     //   });
     //   return;
     // }
+    client.lastUserUsingSendCommand = interaction.user.id;
     const user = interaction.options.get("user", true).user!;
     const content = interaction.options.get("content", true).value as string;
     const attachment = interaction.options.get("attachment")?.attachment;
