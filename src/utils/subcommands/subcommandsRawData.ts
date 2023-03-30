@@ -12,6 +12,11 @@ const subcommandsGroupsRawData: subcommandData = {
   music: {
     description: "Music Commands!",
   },
+  levels: {
+    description: "The levelling system commands!",
+    directCommands: false,
+    permissions: PermissionFlagsBits.ManageGuild,
+  },
 };
 
 const subcommandsRawData: subcommandData = {

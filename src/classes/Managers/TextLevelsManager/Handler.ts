@@ -32,13 +32,13 @@ export default class TextLevelsHandler {
       let xpToBeAdded;
       if (message.channel.id === "800314338534883348") {
         xpToBeAdded = this.getRandomInt(
-          guildLevelingSystemSettings.minXpPerMessage * 2,
-          guildLevelingSystemSettings.maxXpPerMessage * 2
+          guildLevelingSystemSettings.minXpPerMessage! * 2,
+          guildLevelingSystemSettings.maxXpPerMessage! * 2
         );
       } else {
         xpToBeAdded = this.getRandomInt(
-          guildLevelingSystemSettings.minXpPerMessage,
-          guildLevelingSystemSettings.maxXpPerMessage
+          guildLevelingSystemSettings.minXpPerMessage!,
+          guildLevelingSystemSettings.maxXpPerMessage!
         );
       }
       xp += xpToBeAdded;
