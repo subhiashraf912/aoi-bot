@@ -11,7 +11,7 @@ export default class ChannelCreateCommand extends BaseSubCommandExecutor {
     super({
       name: "remove-text",
       baseCommand: "levels",
-      group: "roles",
+      group: "channels",
       description: "Removes a text level role to the database.",
     });
     this.commandBuilder.addChannelOption((option) =>

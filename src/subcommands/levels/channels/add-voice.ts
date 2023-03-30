@@ -12,7 +12,7 @@ export default class ChannelCreateCommand extends BaseSubCommandExecutor {
     super({
       name: "add-voice",
       baseCommand: "levels",
-      group: "roles",
+      group: "channels",
       description: "Adds a voice level role to the database.",
     });
     this.commandBuilder.addChannelOption((option) =>
