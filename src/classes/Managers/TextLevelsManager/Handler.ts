@@ -88,10 +88,10 @@ export default class TextLevelsHandler {
     if (rolesToBeAdded[0])
       try {
         await message.member.roles.add(rolesToBeAdded);
-        await message.member?.send({
-          content: `Congrats! You have got ${rolesToBeAdded.map(
+        await message.channel.send({
+          content: `Congrats ${message.author.toString()}! You have got ${rolesToBeAdded.map(
             (role) => `${role?.name} `
-          )} role in ${message.guild?.name}!`,
+          )} role!`,
         });
       } catch {}
   }
