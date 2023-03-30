@@ -41,6 +41,9 @@ export default class TextLevelMessageContent extends BaseSubCommandExecutor {
           guildId: interaction.guildId!,
           levelUpMessageContent: null,
         });
+        await interaction.reply({
+          content: "The level message content has been set to default!",
+        });
         return;
       }
       if (!content) {

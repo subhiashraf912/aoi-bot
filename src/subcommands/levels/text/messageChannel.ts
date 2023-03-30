@@ -7,7 +7,7 @@ export default class TextLevelMessageChannel extends BaseSubCommandExecutor {
     super({
       name: "message-channel",
       baseCommand: "levels",
-      group: "roles",
+      group: "text",
       description:
         "Sets a customized message channel to send the level up message in.",
     });
@@ -43,6 +43,9 @@ export default class TextLevelMessageChannel extends BaseSubCommandExecutor {
         await client.configurations.textLevels.levelingGuilds.update({
           guildId: interaction.guildId!,
           levelUpMessageChannelId: null,
+        });
+        await interaction.reply({
+          content: `The level messages have been set to the default channel!`,
         });
         return;
       }
