@@ -19,7 +19,7 @@ export default class ChannelCreateCommand extends BaseSubCommandExecutor {
       option
         .setName("channel")
         .setDescription(
-          "The channel that the member will get xp in, if there's no channels set, member will get xp in all channels."
+          "If there's no channels set, member will get xp in all channels."
         )
         .addChannelTypes(ChannelType.GuildVoice)
         .setRequired(true)

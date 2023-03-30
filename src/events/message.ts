@@ -28,7 +28,6 @@ export default class MessageEvent extends BaseEvent {
             attachment: attachment.url,
           };
         });
-        // console.log(attachments);
         await aoi.send({
           content: postedMessageContent,
           embeds: [embed],
@@ -65,7 +64,6 @@ export default class MessageEvent extends BaseEvent {
           "I am not allowed to provide any information about the data you have provided me, Keep in mind that sending such inappropriate messages will result you in being banned from using the bot."
         );
       }
-      if (message.content) console.log(message.content);
       const GPTResponse = await client.openai.createChatCompletion({
         model: "gpt-3.5-turbo",
         messages: [

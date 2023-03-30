@@ -115,15 +115,10 @@ function assignSlashSubcommandsGroupsAndSubcommandsToClientCollection(
   client.subcommandsGroups.forEach((group) => {
     const groupName =
       group.baseCommand as keyof typeof subcommandsGroupsRawData;
-    console.log(groupName);
     const permissions = subcommandsGroupsRawData[groupName]?.permissions;
     const description = subcommandsGroupsRawData[groupName]?.description;
     const directCommands = subcommandsGroupsRawData[groupName]?.directCommands;
-    console.log(permissions, description);
     if (permissions) {
-      console.log(
-        `group basecommand: ${group.baseCommand} | group name: ${group.name}`
-      );
       client.subcommandsBuilders
         .get(group.baseCommand)
         ?.setDefaultMemberPermissions(permissions);
@@ -146,9 +141,7 @@ function assignSlashSubcommandsGroupsAndSubcommandsToClientCollection(
   client.subcommands.forEach((subcommand) => {
     const baseCommandName =
       subcommand.baseCommand as keyof typeof subcommandsRawData;
-    console.log(
-      `subcommand basecommand: ${subcommand.baseCommand} | subcommand name: ${subcommand.name}`
-    );
+
     const permissions = subcommandsRawData[baseCommandName]?.permissions;
     const description = subcommandsRawData[baseCommandName]?.description;
     const directCommands = subcommandsRawData[baseCommandName]?.directCommands;
@@ -162,7 +155,6 @@ function assignSlashSubcommandsGroupsAndSubcommandsToClientCollection(
       );
 
       if (permissions) {
-        console.log(`setting permissions for ${subcommand.baseCommand}`);
         client.subcommandsBuilders
           .get(subcommand.baseCommand)
           ?.setDefaultMemberPermissions(permissions);
@@ -190,10 +182,11 @@ export async function clientRegistry(client: DiscordClient<boolean>) {
     command.toJSON()
   );
   const combinedCommands = [...slashCommandsJSON, ...slashSubCommandsJSON];
-  // // await client.rest.put(Routes.applicationCommands(APP_ID), { body: [] });
+  // await client.rest.put(Routes.applicationCommands(APP_ID), { body: [] });
   await client.rest.put(Routes.applicationCommands(APP_ID), {
     body: combinedCommands,
   });
+  // console.log(combinedCommands);
   await client.rest.put(Routes.applicationGuildCommands(APP_ID, GUILD_ID), {
     body: [],
   });
