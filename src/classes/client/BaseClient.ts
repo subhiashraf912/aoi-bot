@@ -14,6 +14,7 @@ import ClientConfiguration from "./ClientConfigurationsManager";
 import Database from "../Database/Database";
 import BaseSubCommandExecutor from "../bases/BaseSubCommandExecutor";
 import { Configuration, OpenAIApi } from "openai";
+import ClientUtils from "./ClientUtils";
 
 interface SubcommandsGroup {
   name: string;
@@ -35,7 +36,7 @@ export default class DiscordClient<
       apiKey: process.env.OPENAI_KEY,
     })
   );
-
+  utils: ClientUtils = new ClientUtils(this);
   database = new Database(process.env.MONGO_DB!);
   slashCommands = new Collection<string, BaseSlashCommand>();
   events = new Collection<keyof ClientEvents, BaseEvent>();
