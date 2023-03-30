@@ -15,6 +15,8 @@ const LevelingGuildsSettingsSchema =
       type: Number,
       default: 15,
     },
+    levelUpMessageChannelId: String,
+    levelUpMessageContent: String,
   });
 
 export default mongoose.model<LevelingGuildsSettingsSchemaConfiguration>(

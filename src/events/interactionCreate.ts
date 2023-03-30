@@ -13,10 +13,13 @@ export default class MessageEvent extends BaseEvent {
       const subcommandGroup = interaction.options.getSubcommandGroup(false);
       const subcommandName = interaction.options.getSubcommand(false);
       if (subcommandName) {
+        console.log(client.subcommands);
+
         const command = client.subcommands.find(
           (subcommand) =>
             subcommand.group === subcommandGroup &&
-            subcommandName === subcommand.name
+            subcommandName === subcommand.name &&
+            subcommand.baseCommand === commandName
         );
         if (!command) {
           await interaction.reply({

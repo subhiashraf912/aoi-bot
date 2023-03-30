@@ -52,7 +52,7 @@ export async function registerSlashSubcommands(
           !client.subcommandsGroups.find(
             (group, groupName) =>
               group.baseCommand === baseCommandName &&
-              groupName === command.group
+              groupName === `${group.baseCommand}_${command.group}`
           )
         ) {
           const group = new SlashCommandSubcommandGroupBuilder()
@@ -68,8 +68,10 @@ export async function registerSlashSubcommands(
         }
         const group = client.subcommandsGroups.find(
           (group, groupName) =>
-            group.baseCommand === baseCommandName && groupName === command.group
+            group.baseCommand === baseCommandName &&
+            groupName === `${group.baseCommand}_${command.group}`
         );
+
         if (
           !group?.registeredCommands.includes(command.name) &&
           command.group === group?.name
@@ -81,6 +83,12 @@ export async function registerSlashSubcommands(
             group!
           );
         }
+
+        console.log(command);
+        client.subcommands.set(
+          `${command.baseCommand}_${command.name}`,
+          command
+        );
       } else {
         client.subcommands.set(
           `${command.baseCommand}_${command.name}`,
@@ -138,7 +146,9 @@ function assignSlashSubcommandsGroupsAndSubcommandsToClientCollection(
       .get(group.baseCommand)
       ?.addSubcommandGroup(group.builder);
   });
+
   client.subcommands.forEach((subcommand) => {
+    if (subcommand.group) return;
     const baseCommandName =
       subcommand.baseCommand as keyof typeof subcommandsRawData;
 
@@ -173,8 +183,6 @@ export async function clientRegistry(client: DiscordClient<boolean>) {
   await registerSlashSubcommands(client);
   assignSlashSubcommandsGroupsAndSubcommandsToClientCollection(client);
 
-  const f: APIApplicationCommandSubcommandOption[] = [];
-
   const slashCommandsJSON = client.slashCommands.map((command) =>
     command.getSlashCommandJSON()
   );
@@ -182,12 +190,15 @@ export async function clientRegistry(client: DiscordClient<boolean>) {
     command.toJSON()
   );
   const combinedCommands = [...slashCommandsJSON, ...slashSubCommandsJSON];
-  // await client.rest.put(Routes.applicationCommands(APP_ID), { body: [] });
+
   await client.rest.put(Routes.applicationCommands(APP_ID), {
     body: combinedCommands,
   });
-  // console.log(combinedCommands);
-  await client.rest.put(Routes.applicationGuildCommands(APP_ID, GUILD_ID), {
-    body: [],
-  });
+  try {
+    await client.rest.put(Routes.applicationGuildCommands(APP_ID, GUILD_ID), {
+      body: [],
+    });
+  } catch (err) {
+    console.log(err);
+  }
 }

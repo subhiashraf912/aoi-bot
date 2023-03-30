@@ -1,4 +1,4 @@
-import { Message, Role } from "discord.js";
+import { GuildTextBasedChannel, Message, Role } from "discord.js";
 import DiscordClient from "../../client/BaseClient";
 
 export default class TextLevelsHandler {
@@ -29,27 +29,32 @@ export default class TextLevelsHandler {
     if (Date.now() - rank.lastMessage > 60000) {
       let level = rank.level;
       let xp = rank.xp;
-      let xpToBeAdded;
-      if (message.channel.id === "800314338534883348") {
-        xpToBeAdded = this.getRandomInt(
-          guildLevelingSystemSettings.minXpPerMessage! * 2,
-          guildLevelingSystemSettings.maxXpPerMessage! * 2
-        );
-      } else {
-        xpToBeAdded = this.getRandomInt(
-          guildLevelingSystemSettings.minXpPerMessage!,
-          guildLevelingSystemSettings.maxXpPerMessage!
-        );
-      }
-      xp += xpToBeAdded;
+      xp += this.getRandomInt(
+        guildLevelingSystemSettings.minXpPerMessage!,
+        guildLevelingSystemSettings.maxXpPerMessage!
+      );
 
       const xpToNextLevel = 5 * Math.pow(level, 2) + 50 * level + 100;
       if (xp >= xpToNextLevel) {
         level++;
         xp = xp - xpToNextLevel;
-        const channel = message.channel;
+        const { levelUpMessageChannelId, levelUpMessageContent } =
+          guildLevelingSystemSettings;
+        const channel = (
+          levelUpMessageChannelId
+            ? (await this.client.channels.fetch(levelUpMessageChannelId)) ||
+              message.channel
+            : message.channel
+        ) as GuildTextBasedChannel;
+        const content = levelUpMessageContent
+          ? levelUpMessageContent
+              .replaceAll("{member-ping}", message.author.toString())
+              .replaceAll("{member-tag}", message.author.tag)
+              .replaceAll("{member-username}", message.author.username)
+              .replaceAll("{level}", level.toString())
+          : `GG ${message.author.toString()}! You have reached level ${level.toString()}`;
         channel.send({
-          content: `GG ${message.author.toString()}! You have reached level ${level.toString()}`,
+          content,
         });
       }
       await this.client.configurations.textLevels.ranks.update({

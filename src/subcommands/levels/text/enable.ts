@@ -2,7 +2,7 @@ import { ChatInputCommandInteraction } from "discord.js";
 import BaseSubCommandExecutor from "../../../classes/bases/BaseSubCommandExecutor";
 import DiscordClient from "../../../classes/client/BaseClient";
 
-export default class ChannelCreateCommand extends BaseSubCommandExecutor {
+export default class EnableTextLevelsCommand extends BaseSubCommandExecutor {
   constructor() {
     super({
       name: "enable",
