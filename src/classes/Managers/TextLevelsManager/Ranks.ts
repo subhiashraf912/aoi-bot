@@ -63,7 +63,7 @@ export default class TextLevelRanksManager extends BaseManager<TextLevelsRanksCo
         guildId,
         userId: userId!,
         lastMessage: Date.now(),
-        level: 0,
+        level: 1,
         xp: 0,
         rankBackground: null,
       });

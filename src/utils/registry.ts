@@ -84,7 +84,6 @@ export async function registerSlashSubcommands(
           );
         }
 
-        console.log(command);
         client.subcommands.set(
           `${command.baseCommand}_${command.name}`,
           command
