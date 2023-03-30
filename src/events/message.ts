@@ -130,7 +130,7 @@ export default class MessageEvent extends BaseEvent {
         }
       }
     } else {
-      client.configurations.textLevels.handler.HandleTextMessage(message);
+      // client.configurations.textLevels.handler.HandleTextMessage(message);
     }
   }
 }
