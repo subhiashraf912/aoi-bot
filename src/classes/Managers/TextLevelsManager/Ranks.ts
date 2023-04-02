@@ -3,6 +3,7 @@ import { isArray } from "util";
 import TextLevelsRanksConfiguration from "../../../utils/@types/TextLevelsRanksConfiguration";
 import BaseManager from "../../bases/BaseManager";
 import DiscordClient from "../../client/BaseClient";
+import TextLevelsRanksUpdateConfiguration from "../../../utils/@types/TextLevelsRanksUpdateConfiguration";
 
 type searchDataType = {
   guildId: Snowflake;
@@ -20,7 +21,7 @@ export default class TextLevelRanksManager extends BaseManager<TextLevelsRanksCo
     return configuration;
   }
   async update(
-    data: TextLevelsRanksConfiguration
+    data: TextLevelsRanksUpdateConfiguration
   ): Promise<TextLevelsRanksConfiguration> {
     let configuration =
       await this.client.database.models.textLevelRanks.findOneAndUpdate(
@@ -31,7 +32,15 @@ export default class TextLevelRanksManager extends BaseManager<TextLevelsRanksCo
         data,
         { new: true }
       );
-    if (!configuration) configuration = await this.create(data);
+    if (!configuration)
+      configuration = await this.create({
+        guildId: data.guildId,
+        userId: data.userId,
+        rankBackground: data.rankBackground || null,
+        xp: data.xp || 0,
+        lastMessage: data.lastMessage || Date.now(),
+        level: data.level || 1,
+      });
     this.cache.set(`${data.guildId}.${data.userId}`, configuration);
     return configuration;
   }

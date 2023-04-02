@@ -13,6 +13,7 @@ const client = new Client({
     "Guilds",
     "GuildMembers",
     "GuildMessages",
+    "GuildPresences",
   ],
   partials: [
     Partials.Channel,
