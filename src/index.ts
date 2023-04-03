@@ -1,5 +1,4 @@
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 import { Partials } from "discord.js";
 import Client from "./classes/client/BaseClient";
 import { clientRegistry } from "./utils/registry";

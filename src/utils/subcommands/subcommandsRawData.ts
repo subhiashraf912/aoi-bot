@@ -34,6 +34,11 @@ const subcommandsRawData: subcommandData = {
     permissions: PermissionFlagsBits.ManageChannels,
     directCommands: false,
   },
+  warn: {
+    description: "Warn Management commands!",
+    permissions: PermissionFlagsBits.KickMembers,
+    directCommands: false,
+  },
 };
 
 export { subcommandsGroupsRawData, subcommandsRawData };

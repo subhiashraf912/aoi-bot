@@ -74,6 +74,14 @@ class WarnsManager extends BaseManager<Warn> {
     this.cache.set(configuration.id, configuration);
     return configuration;
   }
+
+  async getAllWarns(key: Partial<Warn>): Promise<Warn[]> {
+    const data = await this.client.database.models.warns.find(key);
+    data.forEach((warn) => {
+      this.cache.set(warn.id, warn);
+    });
+    return data;
+  }
 }
 
 export default WarnsManager;
