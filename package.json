@@ -7,11 +7,6 @@
     "start": "node ./dist",
     "dev": "nodemon ./src/index.ts",
     "build": "tsc",
-    "copy-canvacord-images": "copyfiles --error --up 2 src/Bot/classes/Utility/@azecord/assets/data/images/*.* dist/src/Bot",
-    "copy-canvacord-fonts": "copyfiles --error --up 2 src/Bot/classes/Utility/@azecord/assets/data/fonts/*.* dist/src/Bot",
-    "copy-azecord-images": "copyfiles --error --up 2 src/Bot/classes/Utility/AzeCord/aze-canvas/assets/img/*.* dist/src/Bot",
-    "copy-azecord-fonts": "copyfiles --error --up 2 src/Bot/classes/Utility/AzeCord/aze-canvas/assets/fonts/*.* dist/src/Bot",
-    "postbuild": "yarn copy-canvacord-images && yarn copy-canvacord-fonts && yarn copy-azecord-images && yarn copy-azecord-fonts",
     "generate-tsc": "tsc --init"
   },
   "dependencies": {
@@ -32,7 +27,6 @@
     "@types/moment-duration-format": "^2.2.3",
     "@types/node": "^18.11.9",
     "@types/uuid": "^9.0.1",
-    "copyfiles": "^2.4.1",
     "dotenv": "^16.0.3",
     "nodemon": "^2.0.20",
     "ts-node": "^10.9.1",
