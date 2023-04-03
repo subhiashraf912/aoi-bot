@@ -4,6 +4,7 @@ import TextLevelsManager from "./TextLevelsManager";
 import VoiceLevelsManager from "./VoiceLevelsManager";
 import JoinRolesManager from "./JoinRolesManager";
 import GuildCountersManager from "./GuildCountersManager";
+import WarnsManager from "./WarnsManager";
 export {
   WelcomesManager,
   PrefixesManager,
@@ -11,4 +12,5 @@ export {
   VoiceLevelsManager,
   JoinRolesManager,
   GuildCountersManager,
+  WarnsManager,
 };

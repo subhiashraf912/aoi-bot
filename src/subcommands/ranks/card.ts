@@ -84,6 +84,7 @@ export default class RankCardCommand extends BaseSubCommandExecutor {
       .setAvatar(memberAvatar)
       .setCurrentXP(data.xp)
       .setRequiredXP(5 * Math.pow(data.level, 2) + 50 * data.level + 100)
+      //@ts-ignore
       .setStatus(member.presence?.status || "offline", true)
       .setProgressBar("#FFFFFF", "COLOR")
       .setRank(1, "test", false)

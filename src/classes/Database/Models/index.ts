@@ -12,6 +12,7 @@ import MemberJoinRolesSchema from "./MemberJoinRolesSchema";
 import BotJoinRolesSchema from "./BotJoinRolesSchema";
 import ButtonRolesSchema from "./ButtonRolesSchema";
 import GuildCountersSchema from "./GuildCountersSchema";
+import MemberWarnsSchema from "./MemberWarnsSchema";
 class Models {
   prefixes = PrefixesConfiguration;
   welcomes = WelcomeChannelsConfiguration;
@@ -27,6 +28,7 @@ class Models {
   memberJoinRoles = MemberJoinRolesSchema;
   botJoinRoles = BotJoinRolesSchema;
   guildCounters = GuildCountersSchema;
+  warns = MemberWarnsSchema;
 }
 
 export default Models;

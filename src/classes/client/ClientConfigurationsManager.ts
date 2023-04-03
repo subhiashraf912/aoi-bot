@@ -4,6 +4,7 @@ import {
   PrefixesManager,
   TextLevelsManager,
   VoiceLevelsManager,
+  WarnsManager,
   WelcomesManager,
 } from "../Managers";
 import DiscordClient from "./BaseClient";
@@ -15,6 +16,7 @@ class ClientConfiguration {
   textLevels;
   joinRoles;
   guildCounters;
+  warns;
   constructor(client: DiscordClient<boolean>) {
     this.client = client;
     this.prefixes = new PrefixesManager(this.client);
@@ -23,6 +25,7 @@ class ClientConfiguration {
     this.textLevels = new TextLevelsManager(this.client);
     this.joinRoles = new JoinRolesManager(this.client);
     this.guildCounters = new GuildCountersManager(this.client);
+    this.warns = new WarnsManager(client);
   }
 }
 
