@@ -35,9 +35,9 @@ export default class RankCardCommand extends BaseSubCommandExecutor {
     let memberAvatar: string = member.avatar
       ? member.displayAvatarURL({ extension: "png", size: 4096 })
       : member.user.displayAvatarURL({
-          extension: "png",
-          size: 4096,
-        });
+        extension: "png",
+        size: 4096,
+      });
     let memberUserName: string = member.user.username;
     let Discriminator: string = member.user.discriminator;
 
@@ -99,7 +99,6 @@ export default class RankCardCommand extends BaseSubCommandExecutor {
       .setLevelColor(undefined, color)
       .setOverlay("FF0000")
       .renderEmojis(true);
-    console.log(member.user.bannerURL({ size: 4096 }));
     if (member.user.bannerURL({ extension: "png", size: 4096 })) {
       rank.setBackground(
         "IMAGE",

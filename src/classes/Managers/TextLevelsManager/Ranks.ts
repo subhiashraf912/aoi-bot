@@ -87,4 +87,8 @@ export default class TextLevelRanksManager extends BaseManager<TextLevelsRanksCo
       );
     return configuration as TextLevelsRanksConfiguration;
   }
+  async getRanksForGuild(guildId: string): Promise<TextLevelsRanksConfiguration[]> {
+    const guildRanks = await this.client.database.models.textLevelRanks.find({ guildId })
+    return guildRanks
+  }
 }
