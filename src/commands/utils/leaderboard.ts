@@ -72,7 +72,14 @@ export async function createLeaderboard(
             };
         })
         .filter(Boolean) // Filter out members who left the server
-        .sort((a, b) => b?.xp! - a?.xp!) // Sort by XP
+        .sort((a, b) => {
+            let comparison = 0;
+            if (a?.xp! > b?.xp!) comparison = -1;
+            if (a?.xp! < b?.xp!) comparison = 1;
+            if (a?.level! > b?.level!) comparison = -1;
+            if (a?.level! < b?.level!) comparison = +1;
+            return comparison;
+        }) // Sort by XP
 
     // Calculate which members to display
     const startIndex = (pageNumber - 1) * membersPerPage;
