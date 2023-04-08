@@ -191,11 +191,11 @@ export async function clientRegistry(client: DiscordClient<boolean>) {
   const combinedCommands = [...slashCommandsJSON, ...slashSubCommandsJSON];
 
   await client.rest.put(Routes.applicationCommands(APP_ID), {
-    body: [],
+    body: combinedCommands,
   });
   try {
     await client.rest.put(Routes.applicationGuildCommands(APP_ID, GUILD_ID), {
-      body: combinedCommands,
+      body: [],
     });
   } catch (err) {
     console.log(err);
