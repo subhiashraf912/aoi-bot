@@ -40,13 +40,17 @@ export default class RankCardCommand extends BaseSubCommandExecutor {
       });
     let memberUserName: string = member.user.username;
     let Discriminator: string = member.user.discriminator;
+    const memberRanks = await client.database.models.textLevelRanks.find({
+      guildId: member.guild.id,
+    }).sort({ xp: 'desc', level: 'desc' }).exec();
 
     const data = await client.configurations.textLevels.ranks.get({
       userId: member.id,
       guildId: member.guild.id,
     });
-    console.log(data);
-
+    const memberRank = memberRanks.findIndex(
+      (r) => r.userId === member.id && r.guildId === member.guild.id
+    ) + 1;
     let color, color2, color3;
     switch (member.presence?.status) {
       case "offline":
@@ -87,7 +91,7 @@ export default class RankCardCommand extends BaseSubCommandExecutor {
       //@ts-ignore
       .setStatus(member.presence?.status || "offline", true)
       .setProgressBar("#FFFFFF", "COLOR")
-      .setRank(1, "test", false)
+      .setRank(memberRank, "Rank")
       .setUsername(memberUserName)
       .setDiscriminator(Discriminator)
       .setLevel(data.level)

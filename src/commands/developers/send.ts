@@ -2,7 +2,7 @@ import { CacheType, CommandInteraction, TextChannel } from "discord.js";
 import DiscordClient from "../../classes/client/BaseClient";
 import { BaseSlashCommand } from "../../classes/bases/BaseSlashCommand";
 
-export default class StatsSlashCommand extends BaseSlashCommand {
+export default class SendDMMessageCommand extends BaseSlashCommand {
   constructor() {
     super({
       name: "send",
@@ -41,9 +41,8 @@ export default class StatsSlashCommand extends BaseSlashCommand {
     const user = interaction.options.get("user", true).user!;
     const content = interaction.options.get("content", true).value as string;
     const attachment = interaction.options.get("attachment")?.attachment;
-    const contentt = `> User ${interaction.user.toString()} has used the command \`send\` in: ${
-      interaction.guild?.name || "BOT DMs"
-    }\n> To the user ${user.toString()}
+    const contentt = `> User ${interaction.user.toString()} has used the command \`send\` in: ${interaction.guild?.name || "BOT DMs"
+      }\n> To the user ${user.toString()}
         =========================================================================================
 ${content}
         `;

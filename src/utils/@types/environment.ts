@@ -1,4 +1,4 @@
-export {};
+export { };
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
@@ -8,5 +8,8 @@ declare global {
       OPENAI_ORGANIZATION: string;
       OPENAI_KEY: string;
     }
+  }
+  interface CanvasRenderingContext2D {
+    filter: string;
   }
 }

@@ -15,7 +15,6 @@ export default abstract class BaseSubCommandExecutor {
     this._description = options.description;
     this.commandBuilder.setName(this.name).setDescription(this.description);
   }
-
   get baseCommand() {
     return this._baseCommand;
   }

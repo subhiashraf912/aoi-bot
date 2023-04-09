@@ -1,16 +1,16 @@
 import { AttachmentBuilder, ChatInputCommandInteraction, Snowflake } from "discord.js";
 import DiscordClient from "../../classes/client/BaseClient";
-import { BaseSlashCommand } from "../../classes/bases/BaseSlashCommand";
 import TextLevelsRanksConfiguration from "../../utils/@types/TextLevelsRanksConfiguration";
 import { createCanvas, loadImage } from "canvas";
+import BaseSubCommandExecutor from "../../classes/bases/BaseSubCommandExecutor";
 
-export default class LeaderboardCommand extends BaseSlashCommand {
+export default class LeaderboardCommand extends BaseSubCommandExecutor {
     constructor() {
         super({
             name: "leaderboard",
-            description: "Gets the leaderboard of the server!",
+            description: "Gets the leaderboard of the server!", baseCommand: "rank",
         });
-        this.slashCommandBuilder.addIntegerOption(option => option.setName("page").setDescription("The page you want to seek to in the leaderboard"))
+        this.commandBuilder.addIntegerOption(option => option.setName("page").setDescription("The page you want to seek to in the leaderboard"))
     }
     async run(
         client: DiscordClient<boolean>,
@@ -24,7 +24,6 @@ export default class LeaderboardCommand extends BaseSlashCommand {
                 await interaction.editReply({ content: "This guild does not have any ranks!" })
                 return
             }
-            // const image = await createLeaderboard(client, interaction.guildId!, ranks)
             const image = await createLeaderboard(client, interaction.guildId!, ranks, 5, page)
             const attachment = new AttachmentBuilder(image, {
                 name: "Leaderboard.png",
@@ -47,7 +46,7 @@ export async function createLeaderboard(
 ): Promise<Buffer> {
     const padding = 100;
     const margin = 100;
-    const canvasWidth = 800;
+    const canvasWidth = 550;
     const canvasHeight = (membersPerPage * 100) + padding;
 
     const canvas = createCanvas(canvasWidth, canvasHeight);
@@ -69,6 +68,7 @@ export async function createLeaderboard(
                 member,
                 level: data.level,
                 xp: data.xp,
+                background: data.rankBackground,
             };
         })
         .filter(Boolean) // Filter out members who left the server
@@ -96,15 +96,102 @@ export async function createLeaderboard(
         ctx.font = "24px sans-serif";
         ctx.fillText("No members found for this page.", startX, startY);
     }
+
+
+
     for (let i = 0; i < numMembersToDisplay; i++) {
-        const { member, level, xp } = membersToDisplay[i]!;
-        // Rectangle
+
         const cornerRadius = 20;
         const rectWidth = 550;
         const rectHeight = padding - 10;
         const rectX = 0;
         // const rectX = startX;
         const rectY = startY - 10;
+
+        let { member, level, xp, background } = membersToDisplay[i]!;
+        const memberBanner = member.user.bannerURL({ extension: "png", size: 4096 })
+        if (!background && memberBanner) {
+            background = memberBanner
+        }
+        if (background) { // Load member background image
+            const backgroundImg = await loadImage(background);
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(rectX + cornerRadius, rectY);
+            ctx.lineTo(rectX + rectWidth - cornerRadius, rectY);
+            ctx.arc(
+                rectX + rectWidth - cornerRadius,
+                rectY + cornerRadius,
+                cornerRadius,
+                Math.PI * 1.5,
+                Math.PI * 2
+            );
+            ctx.lineTo(rectX + rectWidth, rectY + rectHeight - cornerRadius);
+            ctx.arc(
+                rectX + rectWidth - cornerRadius,
+                rectY + rectHeight - cornerRadius,
+                cornerRadius,
+                0,
+                Math.PI * 0.5
+            );
+            ctx.lineTo(rectX + cornerRadius, rectY + rectHeight);
+            ctx.arc(
+                rectX + cornerRadius,
+                rectY + rectHeight - cornerRadius,
+                cornerRadius,
+                Math.PI * 0.5,
+                Math.PI
+            );
+            ctx.lineTo(rectX, rectY + cornerRadius);
+            ctx.arc(
+                rectX + cornerRadius,
+                rectY + cornerRadius,
+                cornerRadius,
+                Math.PI,
+                Math.PI * 1.5
+            );
+            ctx.closePath();
+            ctx.clip();
+
+            // Calculate the dimensions and position of the cropped image
+            const imageWidth = backgroundImg.width;
+            const imageHeight = backgroundImg.height;
+            const aspectRatio = rectWidth / rectHeight;
+            const imageAspectRatio = imageWidth / imageHeight;
+
+            let cropWidth = 0;
+            let cropHeight = 0;
+            let cropX = 0;
+            let cropY = 0;
+
+            if (imageAspectRatio > aspectRatio) {
+                cropWidth = imageHeight * aspectRatio;
+                cropHeight = imageHeight;
+                cropX = (imageWidth - cropWidth) / 2;
+            } else {
+                cropWidth = imageWidth;
+                cropHeight = imageWidth / aspectRatio;
+                cropY = (imageHeight - cropHeight) / 3;
+            }
+
+            const scaleFactor = 2;
+            const destWidth = rectWidth * scaleFactor;
+            const destHeight = rectHeight * scaleFactor;
+
+            ctx.imageSmoothingEnabled = true;
+            ctx.drawImage(
+                backgroundImg,
+                cropX, cropY, cropWidth, cropHeight,
+                rectX - (destWidth - rectWidth) / 2,
+                rectY - (destHeight - rectHeight) / 2,
+                destWidth, destHeight
+            );
+            ctx.restore();
+        }
+
+
+        // Rectangle overlay
+
         ctx.beginPath();
         ctx.moveTo(rectX + cornerRadius, rectY);
         ctx.lineTo(rectX + rectWidth - cornerRadius, rectY);
@@ -140,7 +227,7 @@ export async function createLeaderboard(
         );
         ctx.closePath();
 
-        ctx.fillStyle = "rgba(0, 0, 0, 0.75)";
+        ctx.fillStyle = "rgba(0, 0, 0, 0.50)";
         ctx.fill();
 
         // Avatar
