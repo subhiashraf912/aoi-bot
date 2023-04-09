@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { Partials } from "discord.js";
+import { IntentsBitField, Partials } from "discord.js";
 import Client from "./classes/client/BaseClient";
 import { clientRegistry } from "./utils/registry";
 import "./utils/@types/environment";
@@ -7,12 +7,14 @@ import "./utils/@types/environment";
 const { BOT_TOKEN } = process.env;
 const client = new Client({
   intents: [
-    "DirectMessages",
-    "MessageContent",
-    "Guilds",
-    "GuildMembers",
-    "GuildMessages",
-    "GuildPresences",
+    IntentsBitField.Flags.DirectMessages,
+    IntentsBitField.Flags.MessageContent,
+    IntentsBitField.Flags.Guilds,
+    IntentsBitField.Flags.GuildMembers,
+    IntentsBitField.Flags.GuildMessages,
+    IntentsBitField.Flags.GuildPresences,
+    IntentsBitField.Flags.AutoModerationConfiguration,
+    IntentsBitField.Flags.AutoModerationExecution,
   ],
   partials: [
     Partials.Channel,
