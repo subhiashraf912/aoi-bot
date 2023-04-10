@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node ./dist",
-    "dev": "nodemon ./src/index.ts",
+    "dev": "nodemon ./src/bot/index.ts",
     "build": "tsc",
     "generate-tsc": "tsc --init"
   },

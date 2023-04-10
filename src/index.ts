@@ -1,38 +1,9 @@
 import "dotenv/config";
-import { IntentsBitField, Partials } from "discord.js";
-import Client from "./classes/client/BaseClient";
-import { clientRegistry } from "./utils/registry";
-import "./utils/@types/environment";
-
+import { ShardingManager } from 'discord.js';
 const { BOT_TOKEN } = process.env;
-const client = new Client({
-  intents: [
-    IntentsBitField.Flags.DirectMessages,
-    IntentsBitField.Flags.MessageContent,
-    IntentsBitField.Flags.Guilds,
-    IntentsBitField.Flags.GuildMembers,
-    IntentsBitField.Flags.GuildMessages,
-    IntentsBitField.Flags.GuildPresences,
-    IntentsBitField.Flags.AutoModerationConfiguration,
-    IntentsBitField.Flags.AutoModerationExecution,
-  ],
-  partials: [
-    Partials.Channel,
-    Partials.User,
-    Partials.GuildMember,
-    Partials.Message,
-  ],
-  rest: { version: "10" },
-});
-client.rest.setToken(BOT_TOKEN);
 
-async function main() {
-  try {
-    await clientRegistry(client);
-    await client.login(BOT_TOKEN);
-  } catch (err) {
-    console.log(err);
-  }
-}
+const manager = new ShardingManager('./dist/bot/index.js', { token: BOT_TOKEN });
 
-main();
+manager.on('shardCreate', shard => console.log(`Launched shard ${shard.id}`));
+
+manager.spawn();
