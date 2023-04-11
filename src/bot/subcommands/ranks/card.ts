@@ -42,14 +42,35 @@ export default class RankCardCommand extends BaseSubCommandExecutor {
     let Discriminator: string = member.user.discriminator;
     const memberRanks = await client.database.models.textLevelRanks.find({
       guildId: member.guild.id,
-    }).sort({ xp: 'desc', level: 'desc' }).exec();
+    });
+    const guild = await client.guilds.fetch(`${interaction.guildId}`);
+    const members = await guild.members.fetch();
+    const rankedMembers = memberRanks
+      .map((data) => {
+        const member = members.get(data.userId);
+        return member && {
+          member,
+          level: data.level,
+          xp: data.xp,
+          background: data.rankBackground,
+        };
+      })
+      .filter(Boolean) // Filter out members who left the server
+      .sort((a, b) => {
+        let comparison = 0;
+        if (a?.xp! > b?.xp!) comparison = -1;
+        if (a?.xp! < b?.xp!) comparison = 1;
+        if (a?.level! > b?.level!) comparison = -1;
+        if (a?.level! < b?.level!) comparison = +1;
+        return comparison;
+      })
 
     const data = await client.configurations.textLevels.ranks.get({
       userId: member.id,
       guildId: member.guild.id,
     });
-    const memberRank = memberRanks.findIndex(
-      (r) => r.userId === member.id && r.guildId === member.guild.id
+    const memberRank = rankedMembers.findIndex(
+      (r) => r?.member.id === member.id
     ) + 1;
     let color, color2, color3;
     switch (member.presence?.status) {
