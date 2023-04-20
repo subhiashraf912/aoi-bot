@@ -48,6 +48,16 @@ const subcommandsRawData: subcommandData = {
     description: "The public(users) birthday commands!",
     directCommands: false,
   },
+  joinroles: {
+    directCommands: false,
+    description: "The join roles commands!",
+    permissions: PermissionFlagsBits.ManageRoles,
+  },
+  welcomer: {
+    directCommands: false,
+    description: "The welcomer commands!",
+    permissions: PermissionFlagsBits.ManageGuild,
+  },
 };
 
 export { subcommandsGroupsRawData, subcommandsRawData };
