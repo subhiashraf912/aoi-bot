@@ -4,9 +4,9 @@ import {
   ClientOptions,
   Collection,
   SlashCommandBuilder,
-  SlashCommandSubcommandBuilder,
   SlashCommandSubcommandGroupBuilder,
 } from "discord.js";
+
 import { BaseSlashCommand } from "../bases/BaseSlashCommand";
 import BaseEvent from "../bases/BaseEvent";
 import BaseCommand from "../bases/BaseCommand";
@@ -36,6 +36,7 @@ export default class DiscordClient<
       apiKey: process.env.OPENAI_KEY,
     })
   );
+
   utils: ClientUtils = new ClientUtils(this);
   database = new Database(process.env.MONGO_DB!);
   slashCommands = new Collection<string, BaseSlashCommand>();
@@ -48,6 +49,7 @@ export default class DiscordClient<
   aliases = new Collection<string, string>();
   configurations: ClientConfiguration = new ClientConfiguration(this);
   developers = ["805422315538087936", "507684120739184640"];
+
   checkDevelopers(userId: string) {
     return this.developers.includes(userId);
   }

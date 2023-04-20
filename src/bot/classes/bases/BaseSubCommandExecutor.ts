@@ -1,4 +1,8 @@
-import { CommandInteraction, SlashCommandSubcommandBuilder } from "discord.js";
+import {
+  Awaitable,
+  CommandInteraction,
+  SlashCommandSubcommandBuilder,
+} from "discord.js";
 import SubCommandExecutorOptions from "../../utils/@types/SubCommandExecutorOptions";
 import DiscordClient from "../client/BaseClient";
 
@@ -36,5 +40,5 @@ export default abstract class BaseSubCommandExecutor {
   abstract run(
     client: DiscordClient<boolean>,
     interaction: CommandInteraction
-  ): Promise<void>;
+  ): Awaitable<any>;
 }

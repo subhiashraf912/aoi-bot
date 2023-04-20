@@ -4,8 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "node ./dist",
-    "dev": "nodemon ./src/bot/index.ts",
+    "start": "cross-env NODE_ENV=production node dist/index.js",
+    "dev": "cross-env NODE_ENV=development nodemon -L --exec ts-node src/bot/index.ts | pino-pretty -c -t",
     "build": "tsc",
     "generate-tsc": "tsc --init"
   },
@@ -13,6 +13,7 @@
     "@discordjs/rest": "^1.3.0",
     "canvacord": "https://github.com/subhiashraf912/canvacord.git",
     "canvas": "^2.11.0",
+    "cross-env": "^7.0.3",
     "discord.js": "^14.9.0",
     "gifencoder": "^2.0.1",
     "moment": "^2.29.4",
@@ -29,6 +30,7 @@
     "@types/uuid": "^9.0.1",
     "dotenv": "^16.0.3",
     "nodemon": "^2.0.20",
+    "pino-pretty": "^10.0.0",
     "ts-node": "^10.9.1",
     "typescript": "^4.8.4"
   }

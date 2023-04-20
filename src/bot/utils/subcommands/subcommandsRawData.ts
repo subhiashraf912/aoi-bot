@@ -39,6 +39,15 @@ const subcommandsRawData: subcommandData = {
     permissions: PermissionFlagsBits.KickMembers,
     directCommands: false,
   },
+  "set-birthday": {
+    description: "The birthday management commands!",
+    directCommands: false,
+    permissions: PermissionFlagsBits.ManageGuild,
+  },
+  birthday: {
+    description: "The public(users) birthday commands!",
+    directCommands: false,
+  },
 };
 
 export { subcommandsGroupsRawData, subcommandsRawData };

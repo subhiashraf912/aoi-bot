@@ -1,3 +1,4 @@
+import "./utils/enviorment";
 import { IntentsBitField, Partials } from "discord.js";
 import Client from "./classes/client/BaseClient";
 import { clientRegistry } from "./utils/registry";
