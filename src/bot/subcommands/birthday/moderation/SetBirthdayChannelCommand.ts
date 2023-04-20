@@ -1,4 +1,4 @@
-import { ChatInputCommandInteraction } from "discord.js";
+import { ChannelType, ChatInputCommandInteraction } from "discord.js";
 import DiscordClient from "../../../classes/client/BaseClient";
 import BaseSubCommandExecutor from "../../../classes/bases/BaseSubCommandExecutor";
 import BirthdaySystem from "../../../classes/Database/Models/BirthdaySystemSchema";
@@ -15,6 +15,7 @@ export default class SetBirthdayChannelCommand extends BaseSubCommandExecutor {
         .setName("channel")
         .setDescription("The channel to send birthday messages in.")
         .setRequired(true)
+        .addChannelTypes(ChannelType.GuildText)
     );
   }
 

@@ -1,4 +1,4 @@
-import { ChatInputCommandInteraction, Role } from "discord.js";
+import { ChannelType, ChatInputCommandInteraction, Role } from "discord.js";
 import BaseSubCommandExecutor from "../../../classes/bases/BaseSubCommandExecutor";
 import DiscordClient from "../../../classes/client/BaseClient";
 
@@ -15,6 +15,7 @@ export default class SetWelcomeChannelCommand extends BaseSubCommandExecutor {
         .setName("channel")
         .setDescription("The channel you want to set as the welcome channel")
         .setRequired(true)
+        .addChannelTypes(ChannelType.GuildText)
     );
   }
 
