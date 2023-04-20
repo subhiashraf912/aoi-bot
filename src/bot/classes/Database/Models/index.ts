@@ -15,6 +15,8 @@ import GuildCountersSchema from "./GuildCountersSchema";
 import MemberWarnsSchema from "./MemberWarnsSchema";
 import BirthdaySystem from "./BirthdaySystemSchema";
 import usersBirthdaysSchema from "./UserBirthdaySchema";
+import WelcomeScreenSchema from "./WelcomeScreenSchema";
+import WelcomeSystemSchema from "./WelcomeSystemSchema";
 class Models {
   prefixes = PrefixesConfiguration;
   welcomes = WelcomeChannelsConfiguration;
@@ -31,8 +33,10 @@ class Models {
   botJoinRoles = BotJoinRolesSchema;
   guildCounters = GuildCountersSchema;
   warns = MemberWarnsSchema;
-  birthdaySystem = BirthdaySystem
-  usersBirthdays = usersBirthdaysSchema
+  birthdaySystem = BirthdaySystem;
+  usersBirthdays = usersBirthdaysSchema;
+  welcomeScreens = WelcomeScreenSchema;
+  welcomeSystem = WelcomeSystemSchema;
 }
 
 export default Models;
