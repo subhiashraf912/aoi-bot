@@ -1,27 +1,9 @@
 import { Document, Schema, model } from "mongoose";
-
-interface WelcomeScreenAvatar {
-  radius: number;
-  x: number;
-  y: number;
-}
-
-interface WelcomeScreenStatusCircle {
-  radius: number;
-  margin: number;
-  x: number;
-  y: number;
-}
-
-export interface WelcomeScreenText {
-  color: string;
-  text: string;
-  size: number;
-  font: string;
-  x: number;
-  y: number;
-  align?: CanvasTextAlign;
-}
+import {
+  WelcomeScreenAvatar,
+  WelcomeScreenStatusCircle,
+  WelcomeScreenText,
+} from "../../../canvas/welcomeCardV1";
 
 export interface WelcomeScreenOptions {
   width: number;
@@ -50,6 +32,10 @@ const WelcomeScreenOptionsSchema = new Schema<WelcomeScreenOptionsDocument>({
     radius: { type: Number, default: 100 },
     x: { type: Number, default: 300 },
     y: { type: Number, default: 120 },
+    stroke: {
+      color: { type: String, default: "white" },
+      width: { type: Number, default: 5 },
+    },
   },
   statusCircle: {
     radius: { type: Number, default: 25 },
@@ -65,6 +51,12 @@ const WelcomeScreenOptionsSchema = new Schema<WelcomeScreenOptionsDocument>({
     x: { type: Number, default: 300 },
     y: { type: Number, default: 275 },
     align: { type: String, default: "center" },
+    shadow: {
+      shadowColor: { type: String, default: "black" },
+      shadowBlur: { type: Number, default: 5 },
+      shadowOffsetX: { type: Number, default: 0 },
+      shadowOffsetY: { type: Number, default: 0 },
+    },
   },
   subtitleText: {
     color: { type: String, default: "#ffffff" },
@@ -74,6 +66,12 @@ const WelcomeScreenOptionsSchema = new Schema<WelcomeScreenOptionsDocument>({
     x: { type: Number, default: 300 },
     y: { type: Number, default: 300 },
     align: { type: String, default: "center" },
+    shadow: {
+      shadowColor: { type: String, default: "black" },
+      shadowBlur: { type: Number, default: 5 },
+      shadowOffsetX: { type: Number, default: 0 },
+      shadowOffsetY: { type: Number, default: 0 },
+    },
   },
   memberCountText: {
     color: { type: String, default: "#ffffff" },
@@ -83,6 +81,12 @@ const WelcomeScreenOptionsSchema = new Schema<WelcomeScreenOptionsDocument>({
     x: { type: Number, default: 300 },
     y: { type: Number, default: 350 },
     align: { type: String, default: "center" },
+    shadow: {
+      shadowColor: { type: String, default: "black" },
+      shadowBlur: { type: Number, default: 5 },
+      shadowOffsetX: { type: Number, default: 0 },
+      shadowOffsetY: { type: Number, default: 0 },
+    },
   },
   overlay: {
     opacity: { type: Number, default: 0.75 },

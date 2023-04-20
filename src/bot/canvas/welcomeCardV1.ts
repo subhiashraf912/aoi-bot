@@ -2,13 +2,17 @@ import { createCanvas, loadImage } from "canvas";
 import path from "path";
 import { registerFont } from "canvas";
 import { GuildMember } from "discord.js";
-interface WelcomeScreenAvatar {
+export interface WelcomeScreenAvatar {
   radius: number;
   x: number;
   y: number;
+  stroke?: {
+    color: string;
+    width: number;
+  };
 }
 
-interface WelcomeScreenStatusCircle {
+export interface WelcomeScreenStatusCircle {
   radius: number;
   margin: number;
   x: number;
@@ -20,6 +24,12 @@ export interface WelcomeScreenText {
   text: string;
   size: number;
   font: string;
+  shadow: {
+    shadowColor: string;
+    shadowBlur: number;
+    shadowOffsetX: number;
+    shadowOffsetY: number;
+  };
   x: number;
   y: number;
   align?: CanvasTextAlign;
@@ -141,6 +151,22 @@ const createWelcomeScreen = async (
   );
   context.restore();
 
+  if (avatarOptions.stroke) {
+    // Draw a circle around the avatar.
+    context.beginPath();
+    context.arc(
+      avatarOptions.x,
+      avatarOptions.y,
+      avatarOptions.radius + 2,
+      0,
+      Math.PI * 2,
+      true
+    );
+    context.lineWidth = avatarOptions.stroke.width || 2;
+    context.strokeStyle = avatarOptions.stroke.color || "white";
+    context.stroke();
+  }
+
   // Draw the status circle
   context.beginPath();
   context.arc(
@@ -173,6 +199,10 @@ const createWelcomeScreen = async (
     context.fillStyle = welcomeText.color;
     context.textAlign = welcomeText.align || "center";
     context.font = `${welcomeText.size}px ${welcomeText.font}`;
+    context.shadowColor = welcomeText.shadow.shadowColor || "black";
+    context.shadowBlur = welcomeText.shadow.shadowBlur || 5;
+    context.shadowOffsetX = welcomeText.shadow.shadowOffsetX || 2;
+    context.shadowOffsetY = welcomeText.shadow.shadowOffsetY || 2;
     context.fillText(
       welcomeText.text
         .replace("{username}", member.user.username)
@@ -186,6 +216,10 @@ const createWelcomeScreen = async (
     context.fillStyle = subtitleText.color;
     context.textAlign = subtitleText.align || "center";
     context.font = `${subtitleText.size}px ${subtitleText.font}`;
+    context.shadowColor = subtitleText.shadow.shadowColor || "black";
+    context.shadowBlur = subtitleText.shadow.shadowBlur || 5;
+    context.shadowOffsetX = subtitleText.shadow.shadowOffsetX || 2;
+    context.shadowOffsetY = subtitleText.shadow.shadowOffsetY || 2;
     context.fillText(subtitleText.text, subtitleText.x, subtitleText.y);
   }
   // Draw the member count text
@@ -193,6 +227,10 @@ const createWelcomeScreen = async (
     context.fillStyle = memberCountText.color;
     context.textAlign = memberCountText.align || "center";
     context.font = `${memberCountText.size}px ${memberCountText.font}`;
+    context.shadowColor = memberCountText.shadow.shadowColor || "black";
+    context.shadowBlur = memberCountText.shadow.shadowBlur || 5;
+    context.shadowOffsetX = memberCountText.shadow.shadowOffsetX || 2;
+    context.shadowOffsetY = memberCountText.shadow.shadowOffsetY || 2;
     context.fillText(
       memberCountText.text.replace(
         "{count}",
