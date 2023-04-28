@@ -6,7 +6,7 @@ import {
   SlashCommandBuilder,
   SlashCommandSubcommandGroupBuilder,
 } from "discord.js";
-
+import { Socket, io } from "socket.io-client";
 import { BaseSlashCommand } from "../bases/BaseSlashCommand";
 import BaseEvent from "../bases/BaseEvent";
 import BaseCommand from "../bases/BaseCommand";
@@ -36,6 +36,7 @@ export default class DiscordClient<
       apiKey: process.env.OPENAI_KEY,
     })
   );
+  socket: Socket = io("http://localhost:3000"); // Replace with your backend server URL
 
   utils: ClientUtils = new ClientUtils(this);
   database = new Database(process.env.MONGO_DB!);
