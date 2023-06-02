@@ -36,26 +36,30 @@ export default class TextLevelsHandler {
 
       const xpToNextLevel = 5 * Math.pow(level, 2) + 50 * level + 100;
       if (xp >= xpToNextLevel) {
-        level++;
-        xp = xp - xpToNextLevel;
-        const { levelUpMessageChannelId, levelUpMessageContent } =
-          guildLevelingSystemSettings;
-        const channel = (
-          levelUpMessageChannelId
-            ? (await this.client.channels.fetch(levelUpMessageChannelId)) ||
-              message.channel
-            : message.channel
-        ) as GuildTextBasedChannel;
-        const content = levelUpMessageContent
-          ? levelUpMessageContent
-              .replaceAll("{member-ping}", message.author.toString())
-              .replaceAll("{member-tag}", message.author.tag)
-              .replaceAll("{member-username}", message.author.username)
-              .replaceAll("{level}", level.toString())
-          : `GG ${message.author.toString()}! You have reached level ${level.toString()}`;
-        channel.send({
-          content,
-        });
+        try {
+          level++;
+          xp = xp - xpToNextLevel;
+          const { levelUpMessageChannelId, levelUpMessageContent } =
+            guildLevelingSystemSettings;
+          const channel = (
+            levelUpMessageChannelId
+              ? (await this.client.channels.fetch(levelUpMessageChannelId)) ||
+                message.channel
+              : message.channel
+          ) as GuildTextBasedChannel;
+          const content = levelUpMessageContent
+            ? levelUpMessageContent
+                .replaceAll("{member-ping}", message.author.toString())
+                .replaceAll("{member-tag}", message.author.tag)
+                .replaceAll("{member-username}", message.author.username)
+                .replaceAll("{level}", level.toString())
+            : `GG ${message.author.toString()}! You have reached level ${level.toString()}`;
+          channel.send({
+            content,
+          });
+        } catch (err) {
+          console.log(err);
+        }
       }
       await this.client.configurations.textLevels.ranks.update({
         guildId,
