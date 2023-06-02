@@ -3,7 +3,6 @@ import fs from "fs/promises";
 import { BaseSlashCommand } from "../classes/bases/BaseSlashCommand";
 import DiscordClient from "../classes/client/BaseClient";
 import {
-  APIApplicationCommandSubcommandOption,
   Routes,
   SlashCommandBuilder,
   SlashCommandSubcommandGroupBuilder,
@@ -13,6 +12,7 @@ import {
   subcommandsRawData,
   subcommandsGroupsRawData,
 } from "./subcommands/subcommandsRawData";
+import BaseWebSocketEvent from "../classes/bases/BaseWebsocketEvent";
 
 export async function registerCommands(
   client: DiscordClient<boolean>,
@@ -28,6 +28,24 @@ export async function registerCommands(
       const { default: Command } = await import(path.join(filePath, file));
       const command: BaseSlashCommand = new Command();
       client.slashCommands.set(command.name, command);
+    }
+  }
+}
+
+export async function registerWebsocketEvents(
+  client: DiscordClient<boolean>,
+  dir: string = "../websocket"
+) {
+  const filePath = path.join(__dirname, dir);
+  const files = await fs.readdir(filePath);
+  for (const file of files) {
+    const stat = await fs.lstat(path.join(filePath, file));
+    if (stat.isDirectory())
+      registerWebsocketEvents(client, path.join(dir, file));
+    if (file.endsWith(".js") || file.endsWith(".ts")) {
+      const { default: Event } = await import(path.join(dir, file));
+      const event: BaseWebSocketEvent = new Event();
+      client.socket.on(event.name, event.run.bind(event, client));
     }
   }
 }
@@ -179,6 +197,7 @@ export async function clientRegistry(client: DiscordClient<boolean>) {
   const { APP_ID, GUILD_ID } = process.env;
   await registerCommands(client);
   await registerEvents(client);
+  await registerWebsocketEvents(client);
   await registerSlashSubcommands(client);
   assignSlashSubcommandsGroupsAndSubcommandsToClientCollection(client);
 

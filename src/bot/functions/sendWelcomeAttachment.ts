@@ -34,7 +34,7 @@ export default async function sendWelcomeAttachment(
   if (!welcomeSystem || !welcomeSystem.enabled) return;
 
   const channel = member.guild.channels.cache.get(
-    welcomeSystem.channelId
+    welcomeSystem.channelId!
   ) as TextChannel;
 
   if (!channel) {

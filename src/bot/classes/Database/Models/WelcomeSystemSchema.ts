@@ -1,7 +1,7 @@
 import mongoose, { Document, Schema } from "mongoose";
 
 interface IWelcomeSystem extends Document {
-  channelId: string;
+  channelId: string | null;
   guildId: string;
   content: string;
   sendAttachment: boolean;

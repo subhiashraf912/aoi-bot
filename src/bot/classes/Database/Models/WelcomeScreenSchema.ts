@@ -6,6 +6,7 @@ import {
 } from "../../../canvas/welcomeCardV1";
 
 export interface WelcomeScreenOptions {
+  guildId: string;
   width: number;
   height: number;
   backgroundColor: string;
@@ -24,6 +25,7 @@ export interface WelcomeScreenOptions {
 interface WelcomeScreenOptionsDocument extends WelcomeScreenOptions, Document {}
 
 const WelcomeScreenOptionsSchema = new Schema<WelcomeScreenOptionsDocument>({
+  guildId: { type: String, required: true },
   width: { type: Number, default: 600 },
   height: { type: Number, default: 400 },
   backgroundColor: { type: String, default: "#333333" },

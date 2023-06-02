@@ -43,7 +43,6 @@ export default class ToggleWelcomerAttachmentCommand extends BaseSubCommandExecu
       welcomeSystem.sendAttachment = enabled;
       await welcomeSystem.save();
     }
-
     const status = enabled ? "enabled" : "disabled";
 
     await interaction.reply(
