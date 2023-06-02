@@ -1,4 +1,9 @@
-import { GuildTextBasedChannel, Message, Role } from "discord.js";
+import {
+  GuildBasedChannel,
+  GuildTextBasedChannel,
+  Message,
+  Role,
+} from "discord.js";
 import DiscordClient from "../../client/BaseClient";
 
 export default class TextLevelsHandler {
@@ -41,12 +46,23 @@ export default class TextLevelsHandler {
           xp = xp - xpToNextLevel;
           const { levelUpMessageChannelId, levelUpMessageContent } =
             guildLevelingSystemSettings;
-          const channel = (
-            levelUpMessageChannelId
-              ? (await this.client.channels.fetch(levelUpMessageChannelId)) ||
-                message.channel
-              : message.channel
-          ) as GuildTextBasedChannel;
+          let channel: GuildTextBasedChannel;
+          try {
+            if (levelUpMessageChannelId)
+              channel = (await this.client.channels.fetch(
+                levelUpMessageChannelId
+              )) as GuildTextBasedChannel;
+            else {
+              channel = message.channel as GuildTextBasedChannel;
+            }
+          } catch {
+            channel = message.channel as GuildTextBasedChannel;
+            await this.client.configurations.textLevels.levelingGuilds.update({
+              guildId: message.guildId!,
+              levelUpMessageChannelId: null,
+            });
+          }
+
           const content = levelUpMessageContent
             ? levelUpMessageContent
                 .replaceAll("{member-ping}", message.author.toString())
@@ -58,7 +74,7 @@ export default class TextLevelsHandler {
             content,
           });
         } catch (err) {
-          console.log(err);
+          if (err) console.log(err);
         }
       }
       await this.client.configurations.textLevels.ranks.update({
