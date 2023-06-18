@@ -35,11 +35,9 @@ export default class RankCardCommand extends BaseSubCommandExecutor {
     let memberAvatar: string = member.avatar
       ? member.displayAvatarURL({ extension: "png", size: 4096 })
       : member.user.displayAvatarURL({
-        extension: "png",
-        size: 4096,
-      });
-    let memberUserName: string = member.user.username;
-    let Discriminator: string = member.user.discriminator;
+          extension: "png",
+          size: 4096,
+        });
     const memberRanks = await client.database.models.textLevelRanks.find({
       guildId: member.guild.id,
     });
@@ -48,12 +46,14 @@ export default class RankCardCommand extends BaseSubCommandExecutor {
     const rankedMembers = memberRanks
       .map((data) => {
         const member = members.get(data.userId);
-        return member && {
-          member,
-          level: data.level,
-          xp: data.xp,
-          background: data.rankBackground,
-        };
+        return (
+          member && {
+            member,
+            level: data.level,
+            xp: data.xp,
+            background: data.rankBackground,
+          }
+        );
       })
       .filter(Boolean) // Filter out members who left the server
       .sort((a, b) => {
@@ -63,15 +63,14 @@ export default class RankCardCommand extends BaseSubCommandExecutor {
         if (a?.level! > b?.level!) comparison = -1;
         if (a?.level! < b?.level!) comparison = +1;
         return comparison;
-      })
+      });
 
     const data = await client.configurations.textLevels.ranks.get({
       userId: member.id,
       guildId: member.guild.id,
     });
-    const memberRank = rankedMembers.findIndex(
-      (r) => r?.member.id === member.id
-    ) + 1;
+    const memberRank =
+      rankedMembers.findIndex((r) => r?.member.id === member.id) + 1;
     let color, color2, color3;
     switch (member.presence?.status) {
       case "offline":
@@ -113,8 +112,8 @@ export default class RankCardCommand extends BaseSubCommandExecutor {
       .setStatus(member.presence?.status || "offline", true)
       .setProgressBar("#FFFFFF", "COLOR")
       .setRank(memberRank, "Rank")
-      .setUsername(memberUserName)
-      .setDiscriminator(Discriminator)
+      .setUsername(member.user.username)
+      .setDisplayName(member.displayName)
       .setLevel(data.level)
       .setCustomStatusColor(color)
       .setProgressBar(
