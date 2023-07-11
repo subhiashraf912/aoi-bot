@@ -1,24 +1,23 @@
-import { CacheType, CommandInteraction } from "discord.js";
+import { CacheType, ChatInputCommandInteraction } from "discord.js";
 import DiscordClient from "../../classes/client/BaseClient";
 import { BaseSlashCommand } from "../../classes/bases/BaseSlashCommand";
 
-export default class HelpSlashCommand extends BaseSlashCommand {
+export default class PrefixSlashCommand extends BaseSlashCommand {
   constructor() {
     super({
       name: "prefix",
-      description: "Changes the bot prefix!",
+      description: "Gets the bot prefix!",
     });
   }
   async run(
     client: DiscordClient<boolean>,
-    interaction: CommandInteraction<CacheType>
+    interaction: ChatInputCommandInteraction<CacheType>
   ) {
-    try {
-      interaction.reply({
-        content: "this is the prefix command!",
-      });
-    } catch (err: any) {
-      interaction.reply({ content: err.message, ephemeral: true });
-    }
+    const prefix = await client.configurations.prefixes.get(
+      interaction.guildId!
+    );
+    interaction.reply({
+      content: `Bot's prefix is: ${prefix}`,
+    });
   }
 }

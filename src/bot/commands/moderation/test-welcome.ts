@@ -1,9 +1,4 @@
-import {
-  CacheType,
-  CommandInteraction,
-  GuildMember,
-  PermissionFlagsBits,
-} from "discord.js";
+import { CacheType, CommandInteraction } from "discord.js";
 import DiscordClient from "../../classes/client/BaseClient";
 import { BaseSlashCommand } from "../../classes/bases/BaseSlashCommand";
 import sendWelcomeAttachment from "../../functions/sendWelcomeAttachment";
@@ -26,8 +21,10 @@ export default class TestWelcomeCommand extends BaseSlashCommand {
       return;
     }
     try {
+      console.log("Sending welcome attachment...");
       await sendWelcomeAttachment(client, member);
-      await interaction.reply({ content: "Done." });
+      console.log(interaction);
+      await interaction.reply({ content: "Done.", ephemeral: true });
     } catch (err: any) {
       interaction.reply({ content: err.message, ephemeral: true });
     }

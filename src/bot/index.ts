@@ -1,7 +1,7 @@
 import "./utils/enviorment";
 import { IntentsBitField, Partials } from "discord.js";
 import Client from "./classes/client/BaseClient";
-import { clientRegistry } from "./utils/registry";
+import { clientRegistry, pushCommands } from "./utils/registry";
 import "./utils/@types/environment";
 
 const { BOT_TOKEN } = process.env;
@@ -29,6 +29,7 @@ client.rest.setToken(BOT_TOKEN);
 async function main() {
   try {
     await clientRegistry(client);
+    // await pushCommands(client);
     await client.login(BOT_TOKEN);
   } catch (err) {
     console.log(err);

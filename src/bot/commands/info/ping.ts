@@ -14,8 +14,15 @@ export default class PingSlashCommand extends BaseSlashCommand {
     interaction: CommandInteraction<CacheType>
   ) {
     try {
-      interaction.reply({
-        content: "This is the ping command!",
+      const sent = await interaction.reply({
+        content: "Pinging...",
+        fetchReply: true,
+      });
+
+      const ping = sent.createdTimestamp - interaction.createdTimestamp;
+
+      await interaction.editReply({
+        content: `Pong! The latency is ${ping / 3}ms.`,
       });
     } catch (err: any) {
       interaction.reply({ content: err.message, ephemeral: true });

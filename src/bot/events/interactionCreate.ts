@@ -8,6 +8,7 @@ export default class MessageEvent extends BaseEvent {
 
   async run(client: DiscordClient<boolean>, interaction: Interaction) {
     if (interaction.isChatInputCommand()) {
+      console.log("Command interaction");
       const { commandName } = interaction;
       const cmd = client.slashCommands.get(commandName);
       const subcommandGroup = interaction.options.getSubcommandGroup(false);

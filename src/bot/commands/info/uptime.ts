@@ -2,7 +2,7 @@ import { CacheType, CommandInteraction } from "discord.js";
 import DiscordClient from "../../classes/client/BaseClient";
 import { BaseSlashCommand } from "../../classes/bases/BaseSlashCommand";
 
-export default class PingSlashCommand extends BaseSlashCommand {
+export default class UptimeSlashCommand extends BaseSlashCommand {
   constructor() {
     super({
       name: "uptime",
@@ -13,12 +13,9 @@ export default class PingSlashCommand extends BaseSlashCommand {
     client: DiscordClient<boolean>,
     interaction: CommandInteraction<CacheType>
   ) {
-    try {
-      interaction.reply({
-        content: "This is the uptime command!",
-      });
-    } catch (err: any) {
-      interaction.reply({ content: err.message, ephemeral: true });
-    }
+    const uptime = client.uptime; // Assumes client.uptime returns bot's uptime
+    interaction.reply({
+      content: `Bot's uptime: ${uptime}`,
+    });
   }
 }

@@ -12,7 +12,7 @@ export default class MessageEvent extends BaseEvent {
     setInterval(client.utils.checkBirthdays, 5 * 60 * 60 * 1000);
 
     client.user?.setActivity({
-      name: "/help and Aoi's lumine's build",
+      name: "/help",
       type: ActivityType.Watching,
     });
   }
