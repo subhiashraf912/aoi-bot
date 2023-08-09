@@ -18,46 +18,48 @@ export default class HelpSlashCommand extends BaseSlashCommand {
     client: DiscordClient<boolean>,
     interaction: CommandInteraction<CacheType>
   ) {
-    const commands = await client.application?.commands.fetch();
+    interaction.reply({ content: "This command is under development." });
+    return;
+    // const commands = await client.application?.commands.fetch();
 
-    if (!commands) {
-      {
-        interaction.reply({
-          content: "No commands found",
-          ephemeral: true,
-        });
-      }
-      return;
-    }
+    // if (!commands) {
+    //   {
+    //     interaction.reply({
+    //       content: "No commands found",
+    //       ephemeral: true,
+    //     });
+    //   }
+    //   return;
+    // }
 
-    let reply = "";
+    // let reply = "";
 
-    commands.forEach((command) => {
-      console.log(
-        `Command: ${command.name} | Description: ${command.description}`
-      );
-      reply += `**/${command.name}**: ${command.description}\n`;
+    // commands.forEach((command) => {
+    //   console.log(
+    //     `Command: ${command.name} | Description: ${command.description}`
+    //   );
+    //   reply += `**/${command.name}**: ${command.description}\n`;
 
-      if (command.options) {
-        command.options.forEach((option) => {
-          switch (option.type) {
-            case ApplicationCommandOptionType.Subcommand:
-            case ApplicationCommandOptionType.SubcommandGroup:
-              reply += `\t**${option.name}**: ${option.description}\n`;
-              break;
-            default:
-              reply += `\t**${option.name}** (type: ${option.type}): ${option.description}\n`;
-              break;
-          }
-        });
-      }
+    //   if (command.options) {
+    //     command.options.forEach((option) => {
+    //       switch (option.type) {
+    //         case ApplicationCommandOptionType.Subcommand:
+    //         case ApplicationCommandOptionType.SubcommandGroup:
+    //           reply += `\t**${option.name}**: ${option.description}\n`;
+    //           break;
+    //         default:
+    //           reply += `\t**${option.name}** (type: ${option.type}): ${option.description}\n`;
+    //           break;
+    //       }
+    //     });
+    //   }
 
-      reply += "\n";
-    });
+    //   reply += "\n";
+    // });
 
-    interaction.reply({
-      content: reply,
-      ephemeral: true, // Change to false if you want the reply to be public
-    });
+    // interaction.reply({
+    //   content: reply,
+    //   ephemeral: true, // Change to false if you want the reply to be public
+    // });
   }
 }
